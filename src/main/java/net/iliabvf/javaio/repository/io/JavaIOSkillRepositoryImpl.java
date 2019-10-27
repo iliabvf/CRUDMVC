@@ -27,13 +27,18 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
     private final String FILE_NAME = "files/skills.txt";
 
     @Override
-    public void showAll(Map allDevs, Map allSkills) throws ReadingException {
+    public Long create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException, ReadingException {
+        return null;
+    }
+
+    @Override
+    public void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException {
 
     }
 
     @Override
-    public Long create(Long devID, Long skillID) throws CreationException {
-        return null;
+    public void showAll(Map allDevs, Map allSkills) throws ReadingException {
+
     }
 
     public Map getAll() throws ReadingException {
@@ -195,8 +200,4 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
 
     }
 
-    @Override
-    public void update(Long accID, Long devID, Long skillID) throws UpdateException, ReadingException {
-
-    }
 }

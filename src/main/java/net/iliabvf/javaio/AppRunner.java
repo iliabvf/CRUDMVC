@@ -7,9 +7,7 @@ import net.iliabvf.javaio.view.AccountView;
 import net.iliabvf.javaio.view.DeveloperView;
 import net.iliabvf.javaio.view.SkillView;
 
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class AppRunner {
 
@@ -27,6 +25,7 @@ public class AppRunner {
 
     private final static String CREATE_DEV_STRING1 =  "Please enter developer name: ";
     private final static String CREATE_DEV_STRING2 =  "Please enter developer skill: ";
+    private final static String ANOTHER_DEV_STRING =  "Input another skill? (Y/N): ";
 
     public final static String ERROR_CREATING_EMPTY_NAME =  "Error: name is empty";
     public final static String ERROR_CREATING_EMPTY_ID =  "Error creating account, developer or skill id is not set";
@@ -118,19 +117,29 @@ public class AppRunner {
                             continue;
                         }
 
-                        try {
-                            String devSkillName = userInput(CREATE_DEV_STRING2);
-                            skillID = skillView.create(devSkillName);
-                        } catch (CreationException e){
-                            System.out.println(e);
-                            continue;
-                        } catch (ReadingException e){
-                            System.out.println(e);
-                            continue;
+                        skillID = null;
+                        ArrayList<Long> skillsIDsList = new ArrayList();
+
+                        while (true) {
+                            try {
+                                String devSkillName = userInput(CREATE_DEV_STRING2);
+                                skillID = skillView.create(devSkillName);
+                                skillsIDsList.add(skillID);
+                            } catch (CreationException e) {
+                                System.out.println(e);
+                            } catch (ReadingException e) {
+                                System.out.println(e);
+                            }
+
+                            String anotherDevResponse = userInput(ANOTHER_DEV_STRING);
+                            if (anotherDevResponse.toUpperCase().equals("N")){
+                                break;
+                            }
+
                         }
 
                         try {
-                            accountID = accountView.create(devID, skillID);
+                            accountID = accountView.create(devID, skillsIDsList);
                         } catch (CreationException e){
                             System.out.println(e);
                             continue;
@@ -141,7 +150,7 @@ public class AppRunner {
 
                         break;
 
-                    case 2:
+                    case 2: // Show all records
 
                         Map allDevs;
                         Map allSkills;
@@ -173,47 +182,47 @@ public class AppRunner {
 
                         accID = 0L;
 
-                        try {
-                            accID = (Long)Long.decode(userInput(UPDATE_ACCOUNT_STRING));
-                        } catch (NumberFormatException e){
-                            System.out.println(e);
-                            continue;
-                        }
-
-                        if (accID == 0)
-                            break;
-
-                        try {
-                            String devName = userInput(CREATE_DEV_STRING1);
-                            devID = developerView.create(devName);
-                        } catch (CreationException e){
-                            System.out.println(e);
-                            continue;
-                        } catch (ReadingException e){
-                            System.out.println(e);
-                            continue;
-                        }
-
-                        try {
-                            String devSkillName = userInput(CREATE_DEV_STRING2);
-                            skillID = skillView.create(devSkillName);
-                        } catch (CreationException e){
-                            System.out.println(e);
-                            continue;
-                        } catch (ReadingException e){
-                            System.out.println(e);
-                            continue;
-                        }
-
-                        try {
-                            accountView.update(accID, devID, skillID);
-                        } catch (UpdateException e){
-                            System.out.println(e);
-                            continue;
-                        } catch (ReadingException e){
-                            System.out.println(e);
-                            continue;
-                        }
+//                        try {
+//                            accID = (Long)Long.decode(userInput(UPDATE_ACCOUNT_STRING));
+//                        } catch (NumberFormatException e){
+//                            System.out.println(e);
+//                            continue;
+//                        }
+//
+//                        if (accID == 0)
+//                            break;
+//
+//                        try {
+//                            String devName = userInput(CREATE_DEV_STRING1);
+//                            devID = developerView.create(devName);
+//                        } catch (CreationException e){
+//                            System.out.println(e);
+//                            continue;
+//                        } catch (ReadingException e){
+//                            System.out.println(e);
+//                            continue;
+//                        }
+//
+//                        try {
+//                            String devSkillName = userInput(CREATE_DEV_STRING2);
+//                            skillID = skillView.create(devSkillName);
+//                        } catch (CreationException e){
+//                            System.out.println(e);
+//                            continue;
+//                        } catch (ReadingException e){
+//                            System.out.println(e);
+//                            continue;
+//                        }
+//
+//                        try {
+//                            accountView.update(accID, devID, skillID);
+//                        } catch (UpdateException e){
+//                            System.out.println(e);
+//                            continue;
+//                        } catch (ReadingException e){
+//                            System.out.println(e);
+//                            continue;
+//                        }
                         break;
 
                     case 4:

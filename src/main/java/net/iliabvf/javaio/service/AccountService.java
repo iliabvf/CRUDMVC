@@ -7,14 +7,15 @@ import net.iliabvf.javaio.UpdateException;
 import net.iliabvf.javaio.repository.AccountRepository;
 import net.iliabvf.javaio.repository.io.JavaIOAccountRepositoryImpl;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class AccountService {
 
     AccountRepository accountRepository = new JavaIOAccountRepositoryImpl();
 
-    public Long create(Long devID, Long skillID) throws CreationException, ReadingException {
-        return accountRepository.create(devID, skillID);
+    public Long create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException, ReadingException {
+        return accountRepository.create(devID, skillsIDsList);
     }
 
     public void showAll(Map allDevs, Map allSkills) throws ReadingException {
@@ -25,8 +26,8 @@ public class AccountService {
         accountRepository.deleteByID(accID);
     }
 
-    public void update(Long accID, Long devID, Long skillID) throws UpdateException, ReadingException {
-        accountRepository.update(accID, devID, skillID);
+    public void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException {
+        accountRepository.update(accID, devID, skillsIDsList);
     }
 
 }

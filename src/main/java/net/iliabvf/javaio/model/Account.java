@@ -1,20 +1,31 @@
 package net.iliabvf.javaio.model;
 
+import java.util.ArrayList;
+
 public class Account extends BaseEntity {
     private AccountStatus status;
     private Long developerID;
-    private Long skillID;
+    private ArrayList<Long> skillsIDsList;
 
-    public Account(AccountStatus status, Long developerID, Long skillID, Long ID) {
+    public Account(AccountStatus status, Long developerID, ArrayList<Long> skillsIDsList, Long ID) {
         this.status = status;
         this.developerID = developerID;
-        this.skillID = skillID;
+        this.skillsIDsList = skillsIDsList;
         this.ID = ID;
     }
 
     @Override
     public String toString() {
-        return this.status.getNumVal() + ":" + this.developerID + ":" + this.skillID + ":" + this.ID;
+
+        StringBuilder result = new StringBuilder(this.status.getNumVal() + ":" + this.developerID + ":");
+
+        for (int i = 0; i<this.skillsIDsList.size(); i++) {
+            result.append (((i == 0) ? "" : ";") + this.skillsIDsList.get(i));
+        }
+
+        result.append(":" + this.ID);
+
+        return result.toString();
     }
 
     public AccountStatus getStatus() {
@@ -25,8 +36,8 @@ public class Account extends BaseEntity {
         return this.developerID;
     }
 
-    public Long getSkillID() {
-        return this.skillID;
+    public ArrayList<Long> getskillsIDsList() {
+        return this.skillsIDsList;
     }
 
     public Long getID() {

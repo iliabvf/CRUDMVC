@@ -5,6 +5,7 @@ import net.iliabvf.javaio.DeleteException;
 import net.iliabvf.javaio.ReadingException;
 import net.iliabvf.javaio.UpdateException;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public interface GenericRepository<T,ID> {
@@ -19,7 +20,7 @@ public interface GenericRepository<T,ID> {
 
     ID create(String name) throws CreationException, ReadingException;
 
-    ID create(Long devID, Long skillID) throws CreationException, ReadingException;
+    ID create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException, ReadingException;
 
     void deleteAll();
 
@@ -29,5 +30,5 @@ public interface GenericRepository<T,ID> {
 
     void deleteByID(Long accID) throws DeleteException, ReadingException;
 
-    void update(Long accID, Long devID, Long skillID) throws UpdateException, ReadingException;
+    void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException;
 }

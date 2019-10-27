@@ -30,7 +30,7 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
     private final String FILE_NAME = "files/accounts.txt";
 
     @Override
-    public Long create(Long devID, Long skillID) throws CreationException,ReadingException {
+    public Long create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException,ReadingException {
 
         Path path;
         try {
@@ -45,11 +45,13 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
         List list = new ArrayList<Developer>();
 
         Map map = getAll();
+        Long maxID = 0L;
 
-        Long maxID = (Long)map.keySet().stream().max((entry1, entry2) -> (Long)entry1 > (Long)entry2 ? 1 : -1).get();
+        if (map.size() > 0)
+            maxID = (Long)map.keySet().stream().max((entry1, entry2) -> (Long)entry1 > (Long)entry2 ? 1 : -1).get();
 
         Long newID = maxID + 1;
-        Account newDev = new Account(AccountStatus.ACTIVE, devID, skillID, newID);
+        Account newDev = new Account(AccountStatus.ACTIVE, devID, skillsIDsList, newID);
 
         map.put(newID, newDev);
 
@@ -103,19 +105,28 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
 
         try {
             byte[] fileBytes = Files.readAllBytes(path);
-            String data = new String(fileBytes);
-            String[] lines = data.split("\r\n");
+            if (fileBytes.length != 0) {
+                String data = new String(fileBytes);
+                String[] lines = data.split("\r\n");
 
-            for (int i = 0; i < lines.length; i++) {
-                if (lines[i].equals(""))
-                    continue;
+                for (int i = 0; i < lines.length; i++) {
+                    if (lines[i].equals(""))
+                        continue;
 
-                Long accountStatus1 = Long.decode(lines[i].split(":")[0]);
-                Long devID1 = Long.decode(lines[i].split(":")[1]);
-                Long skillID1 = Long.decode(lines[i].split(":")[2]);
-                Long ID1 = Long.decode(lines[i].split(":")[3]);
+                    Long accountStatus1 = Long.decode(lines[i].split(":")[0]);
+                    Long devID1 = Long.decode(lines[i].split(":")[1]);
+                    String skillsIDsStr = lines[i].split(":")[2];
+                    Long ID1 = Long.decode(lines[i].split(":")[3]);
 
-                map.put(ID1, new Account(accountStatus1 == 0L ? AccountStatus.ACTIVE : (accountStatus1 == 1L ? AccountStatus.BANNED : AccountStatus.DELETED), devID1, skillID1, ID1));
+                    ArrayList<Long> skillsIDsList = new ArrayList<>();
+
+                    String[] skillsIDsArray = skillsIDsStr.split(";");
+                    for (String curIDStr: skillsIDsArray) {
+                        skillsIDsList.add(Long.decode(curIDStr));
+                    }
+
+                    map.put(ID1, new Account(accountStatus1 == 0L ? AccountStatus.ACTIVE : (accountStatus1 == 1L ? AccountStatus.BANNED : AccountStatus.DELETED), devID1, skillsIDsList, ID1));
+                }
             }
         }
         catch(IOException ex) {
@@ -154,22 +165,27 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
                 return;
             }
 
-            Skill skill;
+            ArrayList<Skill> skillsList = new ArrayList<>(); //Skill skill;
 
             SkillView skillView = new SkillView();
-            try {
-                skill = skillView.getById(v.getSkillID());
-            } catch (ReadingException e){
-                System.out.println(e);
-                return;
-            }
+
+            v.getskillsIDsList().forEach((n) -> {
+//                System.out.println(n);
+
+                try {
+                    skillsList.add(skillView.getById(n));
+                } catch (ReadingException e){
+                    System.out.println(e);
+                    return;
+                }
+            });
 
             System.out.println("Account ID: " + k
                 + ", Status: " + v.getStatus()
                 + ", Developer: " + dev.getName() + " (ID:" + dev.getID() + ")"
-                + ", Skill: " + skill.getName() + " (ID:" + skill.getID() + ")"
+                + ", Skills: " + skillsList
             );
-            System.out.println("");
+            System.out.println();
         });
     }
 
@@ -221,7 +237,7 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
 
     }
 
-    public void update(Long accID, Long devID, Long skillID) throws UpdateException, ReadingException {
+    public void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException {
         List list = new ArrayList<Account>();
 
         // Reading
@@ -230,7 +246,7 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
         if (!map.containsKey(accID))
             throw new UpdateException("Account with ID: " + accID + ", not found.");
 
-        Account newAcc = new Account(AccountStatus.ACTIVE, devID, skillID, accID);
+        Account newAcc = new Account(AccountStatus.ACTIVE, devID, skillsIDsList, accID);
 
         map.replace(accID, newAcc);
 

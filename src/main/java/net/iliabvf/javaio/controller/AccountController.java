@@ -8,13 +8,14 @@ import net.iliabvf.javaio.repository.AccountRepository;
 import net.iliabvf.javaio.repository.io.JavaIOAccountRepositoryImpl;
 import net.iliabvf.javaio.service.AccountService;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class AccountController {
     AccountService accountService = new AccountService();
 
-    public Long create(Long devID, Long skillID) throws CreationException, ReadingException {
-        return accountService.create(devID, skillID);
+    public Long create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException, ReadingException {
+        return accountService.create(devID, skillsIDsList);
     }
 
     public void showAll(Map allDevs, Map allSkills) throws ReadingException {
@@ -25,8 +26,8 @@ public class AccountController {
         accountService.deleteByID(accID);
     }
 
-    public void update(Long accID, Long devID, Long skillID) throws UpdateException, ReadingException {
-        accountService.update(accID, devID, skillID);
+    public void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException {
+        accountService.update(accID, devID, skillsIDsList);
     }
 
 }

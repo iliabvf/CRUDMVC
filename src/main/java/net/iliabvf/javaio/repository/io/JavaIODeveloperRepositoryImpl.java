@@ -20,13 +20,17 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
-
-    private final String FILE_NAME = "files/developers.txt";
-
     @Override
-    public Long create(Long devID, Long skillID) {
+    public Long create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException, ReadingException {
         return null;
     }
+
+    @Override
+    public void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException {
+
+    }
+
+    private final String FILE_NAME = "files/developers.txt";
 
     public Map getAll() throws ReadingException{
         Map<Long,Developer> map = new HashMap();
@@ -179,8 +183,4 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
 
     }
 
-    @Override
-    public void update(Long accID, Long devID, Long skillID) throws UpdateException, ReadingException {
-
-    }
 }
