@@ -77,6 +77,7 @@ public class AppRunner {
         DeveloperView developerView = new DeveloperView();
         SkillView skillView = new SkillView();
         AccountView accountView = new AccountView();
+        ArrayList<Long> skillsIDsList = new ArrayList();
 
         Long devID;
         Long skillID;
@@ -118,7 +119,7 @@ public class AppRunner {
                         }
 
                         skillID = null;
-                        ArrayList<Long> skillsIDsList = new ArrayList();
+                        skillsIDsList = new ArrayList();
 
                         while (true) {
                             try {
@@ -182,47 +183,58 @@ public class AppRunner {
 
                         accID = 0L;
 
-//                        try {
-//                            accID = (Long)Long.decode(userInput(UPDATE_ACCOUNT_STRING));
-//                        } catch (NumberFormatException e){
-//                            System.out.println(e);
-//                            continue;
-//                        }
-//
-//                        if (accID == 0)
-//                            break;
-//
-//                        try {
-//                            String devName = userInput(CREATE_DEV_STRING1);
-//                            devID = developerView.create(devName);
-//                        } catch (CreationException e){
-//                            System.out.println(e);
-//                            continue;
-//                        } catch (ReadingException e){
-//                            System.out.println(e);
-//                            continue;
-//                        }
-//
-//                        try {
-//                            String devSkillName = userInput(CREATE_DEV_STRING2);
-//                            skillID = skillView.create(devSkillName);
-//                        } catch (CreationException e){
-//                            System.out.println(e);
-//                            continue;
-//                        } catch (ReadingException e){
-//                            System.out.println(e);
-//                            continue;
-//                        }
-//
-//                        try {
-//                            accountView.update(accID, devID, skillID);
-//                        } catch (UpdateException e){
-//                            System.out.println(e);
-//                            continue;
-//                        } catch (ReadingException e){
-//                            System.out.println(e);
-//                            continue;
-//                        }
+                        try {
+                            accID = (Long)Long.decode(userInput(UPDATE_ACCOUNT_STRING));
+                        } catch (NumberFormatException e){
+                            System.out.println(e);
+                            continue;
+                        }
+
+                        if (accID == 0)
+                            break;
+
+                        try {
+                            String devName = userInput(CREATE_DEV_STRING1);
+                            devID = developerView.create(devName);
+                        } catch (CreationException e){
+                            System.out.println(e);
+                            continue;
+                        } catch (ReadingException e){
+                            System.out.println(e);
+                            continue;
+                        }
+
+                        skillID = null;
+                        skillsIDsList = new ArrayList();
+
+                        while (true) {
+                            try {
+                                String devSkillName = userInput(CREATE_DEV_STRING2);
+                                skillID = skillView.create(devSkillName);
+                                skillsIDsList.add(skillID);
+                            } catch (CreationException e) {
+                                System.out.println(e);
+                            } catch (ReadingException e) {
+                                System.out.println(e);
+                            }
+
+                            String anotherDevResponse = userInput(ANOTHER_DEV_STRING);
+                            if (anotherDevResponse.toUpperCase().equals("N")){
+                                break;
+                            }
+
+                        }
+
+                        try {
+                            accountView.update(accID, devID, skillsIDsList);
+                        } catch (UpdateException e){
+                            System.out.println(e);
+                            continue;
+                        } catch (ReadingException e){
+                            System.out.println(e);
+                            continue;
+                        }
+
                         break;
 
                     case 4:
