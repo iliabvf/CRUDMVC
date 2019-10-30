@@ -1,34 +1,42 @@
 package net.iliabvf.javaio.repository;
 
-import net.iliabvf.javaio.CreationException;
-import net.iliabvf.javaio.DeleteException;
-import net.iliabvf.javaio.ReadingException;
-import net.iliabvf.javaio.UpdateException;
+import net.iliabvf.javaio.exceptions.CreationException;
+import net.iliabvf.javaio.exceptions.DeleteException;
+import net.iliabvf.javaio.exceptions.ReadingException;
+import net.iliabvf.javaio.exceptions.UpdateException;
+import net.iliabvf.javaio.model.Account;
+import net.iliabvf.javaio.model.Developer;
+import net.iliabvf.javaio.model.Skill;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public interface GenericRepository<T,ID> {
 
-    T getById(ID id) throws ReadingException;
-
     Map<ID,T> getAll() throws ReadingException;
 
-    ID save(T t);
+    default void deleteAll(){
 
-    void deleteById(ID id);
+    }
 
-    ID create(String name) throws CreationException, ReadingException;
+    default void showAll(Map allDevs, Map allSkills) throws ReadingException{
 
-    ID create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException, ReadingException;
+    }
 
-    void deleteAll();
+    default ID create(String name) throws CreationException, ReadingException{
+        return null;
+    }
 
-    void showAll(Map allDevs, Map allSkills) throws ReadingException;
+    default T getById(ID id) throws ReadingException{
+        return null;
+    }
 
-    void showAll() throws ReadingException;
+    default ID save(T skill){
+        return null;
+    }
 
-    void deleteByID(Long accID) throws DeleteException, ReadingException;
+    default void deleteById(ID id){
 
-    void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException;
+    }
+
 }

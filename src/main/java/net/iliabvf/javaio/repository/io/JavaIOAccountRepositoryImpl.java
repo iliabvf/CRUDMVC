@@ -1,16 +1,14 @@
 package net.iliabvf.javaio.repository.io;
 
-import net.iliabvf.javaio.CreationException;
-import net.iliabvf.javaio.DeleteException;
-import net.iliabvf.javaio.ReadingException;
-import net.iliabvf.javaio.UpdateException;
+import net.iliabvf.javaio.exceptions.CreationException;
+import net.iliabvf.javaio.exceptions.DeleteException;
+import net.iliabvf.javaio.exceptions.ReadingException;
+import net.iliabvf.javaio.exceptions.UpdateException;
 import net.iliabvf.javaio.model.Account;
 import net.iliabvf.javaio.model.AccountStatus;
 import net.iliabvf.javaio.model.Developer;
 import net.iliabvf.javaio.model.Skill;
 import net.iliabvf.javaio.repository.AccountRepository;
-import net.iliabvf.javaio.repository.DeveloperRepository;
-import net.iliabvf.javaio.repository.SkillRepository;
 import net.iliabvf.javaio.view.DeveloperView;
 import net.iliabvf.javaio.view.SkillView;
 
@@ -24,10 +22,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
-public class JavaIOAccountRepositoryImpl implements AccountRepository {
+public class JavaIOAccountRepositoryImpl extends AccountRepository {
     AccountRepository repo;
 
     private final String FILE_NAME = "files/accounts.txt";
+    private final Charset utf8 = StandardCharsets.UTF_8;
 
     @Override
     public Long create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException,ReadingException {
@@ -58,7 +57,6 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
         list.addAll(map.values());
 
         // writing file
-        Charset utf8 = StandardCharsets.UTF_8;
         try {
 
             List<String> list1 = new ArrayList<>();
@@ -72,11 +70,6 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
         }
 
         return newID;
-    }
-
-    @Override
-    public Long create(String name) throws CreationException {
-        return null;
     }
 
     @Override
@@ -139,10 +132,10 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
         return map;
     }
 
-    @Override
-    public void deleteById(Long id) {
-        repo.deleteById(id);
-    }
+//    @Override
+//    public void deleteById(Long id) {
+//        repo.deleteById(id);
+//    }
 
     @Override
     public void deleteAll() {
@@ -190,10 +183,6 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void showAll() throws ReadingException {
-
-    }
-
     public void deleteByID(Long accID) throws DeleteException, ReadingException {
         List list = new ArrayList<Account>();
 
@@ -219,7 +208,6 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
         } catch (URISyntaxException e){
             throw new ReadingException("Error: URISyntaxException reading file " + path);
         }
-        Charset utf8 = StandardCharsets.UTF_8;
         try {
 
             List<String> list1 = new ArrayList<>();
@@ -237,6 +225,7 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
 
     }
 
+    @Override
     public void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException {
         List list = new ArrayList<Account>();
 
@@ -263,7 +252,6 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
             throw new ReadingException("Error: URISyntaxException reading file " + path);
         }
 
-        Charset utf8 = StandardCharsets.UTF_8;
         try {
             List<String> list1 = new ArrayList<>();
             for (int i = 0; i < list.size(); i++)
@@ -279,7 +267,5 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
         System.out.println();
 
     }
-
-
 
 }

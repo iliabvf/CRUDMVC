@@ -1,13 +1,11 @@
 package net.iliabvf.javaio.repository.io;
 
-import net.iliabvf.javaio.CreationException;
-import net.iliabvf.javaio.DeleteException;
-import net.iliabvf.javaio.ReadingException;
-import net.iliabvf.javaio.UpdateException;
+import net.iliabvf.javaio.exceptions.CreationException;
+import net.iliabvf.javaio.exceptions.DeleteException;
+import net.iliabvf.javaio.exceptions.ReadingException;
+import net.iliabvf.javaio.exceptions.UpdateException;
 import net.iliabvf.javaio.model.Developer;
-import net.iliabvf.javaio.repository.AccountRepository;
 import net.iliabvf.javaio.repository.DeveloperRepository;
-import net.iliabvf.javaio.repository.SkillRepository;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -19,19 +17,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
-public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
-    @Override
-    public Long create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException, ReadingException {
-        return null;
-    }
-
-    @Override
-    public void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException {
-
-    }
+public class JavaIODeveloperRepositoryImpl extends DeveloperRepository {
+    private final Charset utf8 = StandardCharsets.UTF_8;
 
     private final String FILE_NAME = "files/developers.txt";
 
+    @Override
     public Map getAll() throws ReadingException{
         Map<Long,Developer> map = new HashMap();
 
@@ -58,8 +49,8 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
                 if (lines[i].equals(""))
                     continue;
 
-                Long ID = Long.decode(lines[i].split(":")[0]);
-                map.put(ID, new Developer(ID, lines[i].split(":")[1]));
+                Long id = Long.decode(lines[i].split(":")[0]);
+                map.put(id, new Developer(id, lines[i].split(":")[1]));
             }
         }
         catch(IOException ex) {
@@ -100,7 +91,6 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
         } catch (URISyntaxException e){
             throw new ReadingException("Error: URISyntaxException reading file developers.txt");
         }
-        Charset utf8 = StandardCharsets.UTF_8;
         try {
 
             List<String> list1 = new ArrayList<>();
@@ -114,11 +104,6 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
         }
 
         return newID;
-    }
-
-    @Override
-    public Long save(Developer developer) {
-        return null;
     }
 
     @Override
@@ -156,31 +141,6 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
         }
 
         return null;
-    }
-
-    @Override
-    public void deleteById(Long id) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public void showAll() throws ReadingException {
-
-    }
-
-    @Override
-    public void showAll(Map allDevs, Map allSkills) throws ReadingException {
-
-    }
-
-    @Override
-    public void deleteByID(Long accID) throws DeleteException, ReadingException {
-
     }
 
 }

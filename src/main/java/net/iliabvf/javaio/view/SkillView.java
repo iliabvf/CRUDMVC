@@ -1,10 +1,9 @@
 package net.iliabvf.javaio.view;
 
 import net.iliabvf.javaio.AppRunner;
-import net.iliabvf.javaio.CreationException;
-import net.iliabvf.javaio.ReadingException;
+import net.iliabvf.javaio.exceptions.CreationException;
+import net.iliabvf.javaio.exceptions.ReadingException;
 import net.iliabvf.javaio.controller.SkillController;
-import net.iliabvf.javaio.model.Developer;
 import net.iliabvf.javaio.model.Skill;
 
 import java.util.Map;

@@ -1,14 +1,12 @@
 package net.iliabvf.javaio.repository.io;
 
-import net.iliabvf.javaio.CreationException;
-import net.iliabvf.javaio.DeleteException;
-import net.iliabvf.javaio.ReadingException;
-import net.iliabvf.javaio.UpdateException;
-import net.iliabvf.javaio.model.Developer;
+import net.iliabvf.javaio.exceptions.CreationException;
+import net.iliabvf.javaio.exceptions.DeleteException;
+import net.iliabvf.javaio.exceptions.ReadingException;
+import net.iliabvf.javaio.exceptions.UpdateException;
 import net.iliabvf.javaio.model.Skill;
 import net.iliabvf.javaio.repository.SkillRepository;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
@@ -22,25 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JavaIOSkillRepositoryImpl implements SkillRepository {
+public class JavaIOSkillRepositoryImpl extends SkillRepository {
     SkillRepository repo;
     private final String FILE_NAME = "files/skills.txt";
+    private final Charset utf8 = StandardCharsets.UTF_8;
 
     @Override
-    public Long create(Long devID, ArrayList<Long> skillsIDsList) throws CreationException, ReadingException {
-        return null;
-    }
-
-    @Override
-    public void update(Long accID, Long devID, ArrayList<Long> skillsIDsList) throws UpdateException, ReadingException {
-
-    }
-
-    @Override
-    public void showAll(Map allDevs, Map allSkills) throws ReadingException {
-
-    }
-
     public Map getAll() throws ReadingException {
         Map<Long,Skill> map = new HashMap();
 
@@ -67,8 +52,8 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
                 if (lines[i].equals(""))
                     continue;
 
-                Long ID = Long.decode(lines[i].split(":")[0]);
-                map.put(ID, new Skill(ID, lines[i].split(":")[1]));
+                Long id = Long.decode(lines[i].split(":")[0]);
+                map.put(id, new Skill(id, lines[i].split(":")[1]));
             }
         }
         catch(IOException ex) {
@@ -121,7 +106,6 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
         list.add(new Skill(newID, name));
 
         // writing file
-        Charset utf8 = StandardCharsets.UTF_8;
         try {
 
             List<String> list1 = new ArrayList<>();
@@ -179,7 +163,6 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
         return null;
     }
 
-
     @Override
     public void deleteById(Long id) {
         repo.deleteById(id);
@@ -188,16 +171,6 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
     @Override
     public void deleteAll() {
         repo.deleteAll();
-    }
-
-    @Override
-    public void showAll() throws ReadingException {
-
-    }
-
-    @Override
-    public void deleteByID(Long accID) throws DeleteException, ReadingException {
-
     }
 
 }

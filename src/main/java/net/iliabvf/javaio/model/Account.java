@@ -7,11 +7,11 @@ public class Account extends BaseEntity {
     private Long developerID;
     private ArrayList<Long> skillsIDsList;
 
-    public Account(AccountStatus status, Long developerID, ArrayList<Long> skillsIDsList, Long ID) {
+    public Account(AccountStatus status, Long developerID, ArrayList<Long> skillsIDsList, Long id) {
         this.status = status;
         this.developerID = developerID;
         this.skillsIDsList = skillsIDsList;
-        this.ID = ID;
+        this.id = id;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class Account extends BaseEntity {
             result.append (((i == 0) ? "" : ";") + this.skillsIDsList.get(i));
         }
 
-        result.append(":" + this.ID);
+        result.append(":" + this.id);
 
         return result.toString();
     }
@@ -41,7 +41,7 @@ public class Account extends BaseEntity {
     }
 
     public Long getID() {
-        return this.ID;
+        return this.id;
     }
 
 }

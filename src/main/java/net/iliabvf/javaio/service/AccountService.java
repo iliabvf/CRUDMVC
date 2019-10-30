@@ -1,9 +1,9 @@
 package net.iliabvf.javaio.service;
 
-import net.iliabvf.javaio.CreationException;
-import net.iliabvf.javaio.DeleteException;
-import net.iliabvf.javaio.ReadingException;
-import net.iliabvf.javaio.UpdateException;
+import net.iliabvf.javaio.exceptions.CreationException;
+import net.iliabvf.javaio.exceptions.DeleteException;
+import net.iliabvf.javaio.exceptions.ReadingException;
+import net.iliabvf.javaio.exceptions.UpdateException;
 import net.iliabvf.javaio.repository.AccountRepository;
 import net.iliabvf.javaio.repository.io.JavaIOAccountRepositoryImpl;
 

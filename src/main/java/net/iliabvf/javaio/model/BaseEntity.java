@@ -2,5 +2,5 @@ package net.iliabvf.javaio.model;
 
 public class BaseEntity {
     String name;
-    Long ID;
+    Long id;
 }

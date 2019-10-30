@@ -4,14 +4,14 @@ public class Developer extends BaseEntity {
     // SetSkill
     private Account account;
 
-    public Developer(Long ID, String name) {
+    public Developer(Long id, String name) {
         this.name = name;
-        this.ID = ID;
+        this.id = id;
     }
 
     @Override
     public String toString() {
-        return this.ID + ":" + this.name;
+        return this.id + ":" + this.name;
     }
 
     public String getName() {
@@ -19,7 +19,7 @@ public class Developer extends BaseEntity {
     }
 
     public Long getID() {
-        return this.ID;
+        return this.id;
     }
 
 

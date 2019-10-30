@@ -2,14 +2,14 @@ package net.iliabvf.javaio.model;
 
 public class Skill extends BaseEntity {
 
-    public Skill(Long ID, String name) {
+    public Skill(Long id, String name) {
         this.name = name;
-        this.ID = ID;
+        this.id = id;
     }
 
     @Override
     public String toString() {
-        return this.ID + ":" + this.name;
+        return this.id + ":" + this.name;
     }
 
     public String getName() {
@@ -17,7 +17,7 @@ public class Skill extends BaseEntity {
     }
 
     public Long getID() {
-        return this.ID;
+        return this.id;
     }
 
 

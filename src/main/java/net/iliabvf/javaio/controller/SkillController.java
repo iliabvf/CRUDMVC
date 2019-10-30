@@ -1,7 +1,7 @@
 package net.iliabvf.javaio.controller;
 
-import net.iliabvf.javaio.CreationException;
-import net.iliabvf.javaio.ReadingException;
+import net.iliabvf.javaio.exceptions.CreationException;
+import net.iliabvf.javaio.exceptions.ReadingException;
 import net.iliabvf.javaio.model.Skill;
 import net.iliabvf.javaio.service.SkillService;
 

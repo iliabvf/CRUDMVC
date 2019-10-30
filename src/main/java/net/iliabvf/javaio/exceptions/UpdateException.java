@@ -1,4 +1,4 @@
-package net.iliabvf.javaio;
+package net.iliabvf.javaio.exceptions;
 
 public class UpdateException extends Throwable {
     String str1;
